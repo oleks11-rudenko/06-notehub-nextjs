@@ -28,20 +28,15 @@ export default function NotesClient() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const debouncedSearchQuery = useDebouncedCallback(setSearchQuery, 300);
-
-  const resetPage = () => {
+  const handleSearchChange = useDebouncedCallback((value: string) => {
+    setSearchQuery(value);
     setCurrentPage(1);
-  };
+  }, 300);
 
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox
-          searchQuery={searchQuery}
-          setSearchQuery={debouncedSearchQuery}
-          resetPage={resetPage}
-        />
+        <SearchBox initialValue={searchQuery} onSearchChange={handleSearchChange} />
         {totalPages > 1 && isSuccess && (
           <Pagination
             totalPages={totalPages}
